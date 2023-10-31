@@ -1,0 +1,7 @@
+${AnsiColor.GREEN}
+  ,---.
+ /  O  \ ,--,--, ,--,--,  ,--,--.
+|  .-.  ||      \|      \' ,-.  |
+|  | |  ||  ||  ||  ||  |\ '-'  |
+`--' `--'`--''--'`--''--' `--`--'
+${AnsiColor.DEFAULT}Spring Boot: ${spring-boot.version}
