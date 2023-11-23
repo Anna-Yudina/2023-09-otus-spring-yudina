@@ -21,7 +21,7 @@ public class CommentCommands {
     public String findCommentsByBookId(long bookId) {
         try {
             return commentService.findCommentsByBookId(bookId).stream()
-                    .map(commentConverter::commentTextToString)
+                    .map(commentConverter::commentTextAndBookNameToString)
                     .collect(Collectors.joining("," + System.lineSeparator()));
         } catch (EntityNotFoundException e) {
             return "Book with id %d not found".formatted(bookId);
@@ -40,7 +40,7 @@ public class CommentCommands {
     @ShellMethod(value = "Insert comment", key = "cins")
     public String insert(String comment, long bookId) {
         try {
-            return commentConverter.commentToString(commentService.insert(comment, bookId));
+            return commentConverter.commentTextAndBookNameToString(commentService.insert(comment, bookId));
         } catch (EntityNotFoundException e) {
             return "Book with id %d not found".formatted(bookId);
         }

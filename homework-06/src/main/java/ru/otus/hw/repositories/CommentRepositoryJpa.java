@@ -3,7 +3,6 @@ package ru.otus.hw.repositories;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
-import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.models.Comment;
 import java.util.Optional;
 
@@ -21,8 +20,7 @@ public class CommentRepositoryJpa implements CommentRepository {
 
     @Override
     public void deleteById(long id) {
-        Comment comment = findById(id).orElseThrow(() -> new EntityNotFoundException("Comment not found"));
-        entityManager.remove(comment);
+        entityManager.remove(findById(id).get());
     }
 
     @Override

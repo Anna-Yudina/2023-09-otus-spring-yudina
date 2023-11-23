@@ -9,11 +9,11 @@ public interface BookRepository {
 
     List<Book> findAll();
 
-    Optional<Book> findById(long id);
+    Optional<Book> findWithAutorAndGenresById(long id);
 
     Book save(Book book);
 
-    Book deleteById(long id);
+    void deleteById(long id);
 
-    List<Book> findByAuthorId(long authorId);
+    Optional<Book> findWithoutDetailsById(long id);
 }

@@ -4,7 +4,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
-import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.models.Author;
 
 import java.util.List;
@@ -35,9 +34,7 @@ public class AuthorRepositoryJpa implements AuthorRepository {
     }
 
     @Override
-    public Author deleteById(long id) {
-        Author author = findById(id).orElseThrow(() -> new EntityNotFoundException("Author not found"));
-        entityManager.remove(author);
-        return author;
+    public void deleteById(long id) {
+        entityManager.remove(findById(id).get());
     }
 }

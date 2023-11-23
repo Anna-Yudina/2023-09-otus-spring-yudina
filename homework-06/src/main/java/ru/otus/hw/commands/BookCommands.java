@@ -7,6 +7,7 @@ import org.springframework.shell.standard.ShellOption;
 import ru.otus.hw.converters.BookConverter;
 import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.services.BookService;
+
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -62,8 +63,12 @@ public class BookCommands {
 
     @ShellMethod(value = "Find book by authorId", key = "baid")
     public String findBookByAuthorId(long id) {
-        return bookService.findByAuthorId(id).stream()
-                .map(bookConverter::bookToString)
-                .collect(Collectors.joining("," + System.lineSeparator()));
+        try {
+            return bookService.findByAuthorId(id).stream()
+                    .map(bookConverter::bookTitleAndAuthorToString)
+                    .collect(Collectors.joining("," + System.lineSeparator()));
+        } catch (EntityNotFoundException e) {
+            return "Author with id %d not found".formatted(id);
+        }
     }
 }

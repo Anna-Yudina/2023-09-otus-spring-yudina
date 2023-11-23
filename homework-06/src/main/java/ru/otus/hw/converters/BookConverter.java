@@ -23,4 +23,8 @@ public class BookConverter {
     public String bookTitleToString(Book book) {
         return "Book title: %s".formatted(book.getTitle());
     }
+
+    public String bookTitleAndAuthorToString(Book book) {
+        return "Book author: %s, Book title: %s".formatted(book.getAuthor().getFullName(), book.getTitle());
+    }
 }

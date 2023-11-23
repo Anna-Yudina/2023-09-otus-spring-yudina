@@ -43,7 +43,7 @@ public class CommentRepositoryJpaTest {
     @DisplayName(" должен корректно сохранять всю информацию о комментарии")
     @Test
     void shouldSaveAllCommentInfo() {
-        Book book = bookRepositoryJpa.findById(FIRST_BOOK_ID).get();
+        Book book = bookRepositoryJpa.findWithAutorAndGenresById(FIRST_BOOK_ID).get();
         Comment comment = new Comment(0, COMMENT_TEXT);
         comment.setBook(book);
 

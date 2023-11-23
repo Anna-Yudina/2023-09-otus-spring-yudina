@@ -50,7 +50,7 @@ class BookRepositoryJpaTest {
     @DisplayName(" должен загружать информацию о нужной книге по её id")
     @Test
     void shouldFindExpectedBookById() {
-        Optional<Book> optionalActualBook = bookRepositoryJpa.findById(FIRST_BOOK_ID);
+        Optional<Book> optionalActualBook = bookRepositoryJpa.findWithAutorAndGenresById(FIRST_BOOK_ID);
         Book expectedBook = testEntityManager.find(Book.class, FIRST_BOOK_ID);
         assertThat(optionalActualBook).isPresent().get()
                 .usingRecursiveComparison().isEqualTo(expectedBook);
@@ -104,14 +104,6 @@ class BookRepositoryJpaTest {
         Book updatedBook = testEntityManager.find(Book.class, FIRST_BOOK_ID);
 
         assertThat(updatedBook.getTitle()).isNotEqualTo(oldTitle).isEqualTo(BOOK_TITLE_2);
-    }
-
-    @DisplayName("должен загружать список книг по id")
-    @Test
-    void shouldFindExpectedBookByAuthorId() {
-        Book firstBook = testEntityManager.find(Book.class, FIRST_BOOK_ID);
-        List<Book> books = bookRepositoryJpa.findByAuthorId(FIRST_AUTHOR_ID);
-        assertThat(books).containsOnlyOnce(firstBook);
     }
 
     @DisplayName(" должен удалять заданную книгу по её id")

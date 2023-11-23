@@ -2,8 +2,10 @@ package ru.otus.hw.services;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.exceptions.EntityNotFoundException;
+import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Comment;
 import ru.otus.hw.models.Genre;
@@ -31,12 +33,17 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Optional<Book> findById(long id) {
-        return bookRepository.findById(id);
+        return bookRepository.findWithAutorAndGenresById(id);
     }
 
+    @Transactional
     @Override
     public List<Book> findByAuthorId(long authorId) {
-        return bookRepository.findByAuthorId(authorId);
+        Author author = authorService.findById(authorId)
+                .orElseThrow(() -> new EntityNotFoundException("Author not found"));
+        List<Book> books = author.getBooks();
+        Hibernate.initialize(books);
+        return books;
     }
 
     @Override
@@ -54,7 +61,8 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public Book deleteById(long id) {
-        Book book = bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Book not found"));
+        Book book = bookRepository.findWithoutDetailsById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Book not found"));
         bookRepository.deleteById(id);
         return book;
     }
@@ -74,7 +82,7 @@ public class BookServiceImpl implements BookService {
         var book = new Book(id, title, author, genres);
 
         if (id != 0) {
-            bookRepository.findById(id)
+            bookRepository.findWithoutDetailsById(id)
                     .orElseThrow(() -> new EntityNotFoundException("Book with id %d not found".formatted(id)));
             List<Comment> comments = commentService.findCommentsByBookId(id);
             book.setComments(comments);
