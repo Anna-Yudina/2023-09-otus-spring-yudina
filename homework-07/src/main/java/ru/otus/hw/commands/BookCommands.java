@@ -70,7 +70,7 @@ public class BookCommands {
             return "Books with autor id %d not found".formatted(id);
         }
         return bookService.findByAuthorId(id).stream()
-                .map(bookConverter::bookToString)
+                .map(bookConverter::bookTitleAndAuthorToString)
                 .collect(Collectors.joining("," + System.lineSeparator()));
     }
 }

@@ -10,7 +10,7 @@ public class CommentConverter {
         return "Comment: \"%s\"".formatted(comment.getText());
     }
 
-    public String commentTextAndBookNameToString(Comment comment) {
+    public String  (Comment comment) {
         return "Name's book: \"%s\" Comment: \"%s\"".formatted(comment.getBook().getTitle(), comment.getText());
     }
 }
