@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+<head>
+    <meta charset="UTF-8">
+    <title>AuthorsList</title>
+</head>
+<body>
+<div class="container">
+    <p>
+    <h2>Список авторов</h2>
+    </p>
+    <br>
+    <table class="table table-bordered">
+        <thead class="table-primary">
+        <tr>
+            <th class="col col-lg-1">id</th>
+            <th class="col col-lg-3">ФИО автора</th>
+            <th class="col col-lg-1"></th>
+            <th class="col col-lg-1"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="author : ${authors}" scope="row">
+            <td th:text="${author.id}">1</td>
+            <td th:text="${author.fullName}">John Doe</td>
+            <td>
+                <a th:href="@{/authors/edit/{id}(id=${author.id})}">редактировать</a>
+            </td>
+            <td>
+                <a th:href="@{/authors/delete/{id}(id=${author.id})}">удалить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <h4>Добавить нового автора</h4>
+    <br>
+    <form th:action="@{/authors}" th:method="post" th:object="${authorDto}">
+        <div class="input-group mb-3">
+            <label for="name" class="input-group-text">Введите полное имя автора:</label>
+            <input id="name" name="name" type="text" th:field="*{fullName}" class="form-control"/>
+            <button type="submit" class="btn btn-outline-primary">Сохранить</button>
+        </div>
+        <div th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" class="text-danger">Error name</div>
+    </form>
+    <br>
+    <a href="http://localhost:8080/books">перейти к списку книг</a>
+</div>
+</body>
+</html>
