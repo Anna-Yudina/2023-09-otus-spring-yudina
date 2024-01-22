@@ -23,6 +23,3 @@ insert into users(username, password, enabled)
 values ('yudina', '$2a$12$4SM5LQ/U8sLpEO3YSZunSOxdiz9EtBuuWdt0X2Oz4MOPGfO0rnGn.', 1),
        ('admin', '$2a$12$9F4hbOb88nWRANef6vHe0OAU3pxjHVd1Fa73fRL.MKHHG0H7VMniO', 1);
 
-insert into authorities(username, authority)
-values ('yudina', 'ROLE_USER'),
-       ('admin', 'ROLE_ADMIN');

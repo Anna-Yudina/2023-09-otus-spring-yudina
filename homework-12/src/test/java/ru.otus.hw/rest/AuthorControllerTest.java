@@ -4,27 +4,28 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw.controller.AuthorController;
 import ru.otus.hw.dto.AuthorDto;
 import ru.otus.hw.models.Author;
+import ru.otus.hw.security.SecurityConfiguration;
 import ru.otus.hw.services.AuthorService;
-
+import ru.otus.hw.services.UserService;
 import java.util.List;
-
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.verify;
 import static org.mockito.BDDMockito.times;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(AuthorController.class)
+@Import(SecurityConfiguration.class)
 @WithMockUser("yudina")
 public class AuthorControllerTest {
 
@@ -33,6 +34,9 @@ public class AuthorControllerTest {
 
     @MockBean
     private AuthorService authorService;
+
+    @MockBean
+    private UserService userService;
 
     @Test
     void shouldReturnCorrectAuthorsList() throws Exception {
@@ -59,11 +63,11 @@ public class AuthorControllerTest {
     }
 
     @Test
+    @WithMockUser("yudina")
     public void shouldCreateAuthorAndRedirectToAuthorsList() throws Exception {
         AuthorDto author = new AuthorDto(1, "Author1");
 
         mvc.perform(post("/authors")
-                        .with(csrf())
                         .flashAttr("authorDto", author))
                 .andExpect(status().isFound())
                 .andExpect(redirectedUrl("/authors"));
@@ -77,7 +81,6 @@ public class AuthorControllerTest {
         AuthorDto author = new AuthorDto(1, newAuthorName);
 
         mvc.perform(post("/authors/edit/1")
-                        .with(csrf())
                         .flashAttr("author", author))
                 .andExpect(status().isFound())
                 .andExpect(redirectedUrl("/authors"));

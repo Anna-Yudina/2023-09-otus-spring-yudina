@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -12,9 +13,11 @@ import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Genre;
+import ru.otus.hw.security.SecurityConfiguration;
 import ru.otus.hw.services.AuthorService;
 import ru.otus.hw.services.BookService;
 import ru.otus.hw.services.GenreService;
+import ru.otus.hw.services.UserService;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +27,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -32,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(BookController.class)
 @WithMockUser("yudina")
+@Import(SecurityConfiguration.class)
 public class BookControllerTest {
 
     @Autowired
@@ -46,6 +49,8 @@ public class BookControllerTest {
     @MockBean
     private GenreService genreService;
 
+    @MockBean
+    private UserService userService;
 
     @Test
     void shouldReturnCorrectBooksList() throws Exception {
@@ -82,7 +87,6 @@ public class BookControllerTest {
         book.setGenre(new Genre(1L, "genre1"));
 
         mvc.perform(post("/books")
-                        .with(csrf())
                         .flashAttr("bookDto", book))
                 .andExpect(status().isFound())
                 .andExpect(redirectedUrl("/books"));
@@ -98,7 +102,6 @@ public class BookControllerTest {
         book.setGenre(new Genre(1L, "genre1"));
 
         mvc.perform(post("/books")
-                        .with(csrf())
                         .flashAttr("bookDto", book))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeHasFieldErrors("bookDto", "title"));
@@ -129,7 +132,6 @@ public class BookControllerTest {
         book.setGenre(new Genre(1, "genre1"));
 
         mvc.perform(post("/books/edit/1")
-                        .with(csrf())
                         .flashAttr("book", book))
                 .andExpect(status().isFound())
                 .andExpect(redirectedUrl("/books"));

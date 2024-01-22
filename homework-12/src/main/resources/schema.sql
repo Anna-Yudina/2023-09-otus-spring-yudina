@@ -33,14 +33,9 @@ alter table comments
 
 create table users
     (
+        id bigserial,
         username varchar(15),
         password varchar(100),
-        enabled smallint
+        enabled smallint,
+        primary key (id)
 );
-
-create table authorities
-(
-    username varchar(15),
-    authority varchar(25)
-);
-
