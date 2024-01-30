@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<div class="container">
+    <br>
+    <form class="form-signin" method="post" action="/process_login">
+        <h2 class="form-signin-heading">Пожалуйста, авторизуйтесь!</h2>
+        <p>
+            <label for="username" class="sr-only">логин</label>
+            <input type="text" id="username" name="username" class="form-control" placeholder="логин" required autofocus>
+        </p>
+        <p>
+            <label for="password" class="sr-only">пароль</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="пароль" required>
+        </p>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
+    </form>
+</div>
+</body>
