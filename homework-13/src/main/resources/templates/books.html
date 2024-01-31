@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+<head>
+    <meta charset="UTF-8">
+    <title>Список книг</title>
+</head>
+<body>
+<div class="container">
+    <p>
+    <h2>Список книг:</h2>
+    </p>
+    <br>
+    <table class="table table-bordered">
+        <thead class="table-primary">
+        <tr>
+            <th class="col col-lg-1">id</th>
+            <th class="col col-lg-3">Название книги</th>
+            <th class="col col-lg-3">ФИО автора</th>
+            <th class="col col-lg-1">жанр</th>
+            <th class="col col-lg-1"></th>
+            <th class="col col-lg-1"></th>
+            <th class="col col-lg-1"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="book : ${books}" scope="row">
+            <td th:text="${book.id}">1</td>
+            <td th:text="${book.title}">John Doe</td>
+            <td th:text="${book.author.fullName}"></td>
+            <td th:text="${book.genre.name}"></td>
+            <td>
+                <a th:href="@{/books/{id}/comments(id=${book.id})}">комментарии</a>
+            </td>
+            <td>
+                <a th:href="@{/books/edit/{id}(id=${book.id})}">редактировать</a>
+            </td>
+            <td>
+                <a th:href="@{/books/delete/{id}(id=${book.id})}">удалить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <div class="container border">
+        <h2>Добавить новую книгу</h2>
+        <br>
+        <form th:action="@{/books}" th:method="post" th:object="${bookDto}">
+            <div class="row mb-3">
+                <label for="title" class="col-sm-2 col-form-label">Название книги:</label>
+                <div class="col-sm-10">
+                    <input id="title" name="title" type="text" th:field="*{title}" class="form-control"/>
+                </div>
+            </div>
+            <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-danger">Error</div>
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">ФИО автора:</label>
+                <div class="col-sm-10">
+                    <select th:field="*{author}" class="form-select">
+                        <option value="">Ничего не выбрано</option>
+                        <option th:each="author : ${authors}" th:value="${author.id}"
+                                th:text="${author.fullName}"></option>
+                    </select>
+                </div>
+            </div>
+            <div th:if="${#fields.hasErrors('author')}" th:errors="*{author}" class="text-danger">Error</div>
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">жанр:</label>
+                <div class="col-sm-10">
+                    <select th:field="*{genre}" class="form-select">
+                        <option value="">Ничего не выбрано</option>
+                        <option th:each="genre : ${genres}" th:value="${genre.id}" th:text="${genre.name}"></option>
+                    </select>
+                </div>
+            </div>
+            <div th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}" class="text-danger">Error</div>
+            <br>
+            <div class="d-grid d-md-flex justify-content-md-end">
+                <button type="submit" class="btn btn-outline-primary">Сохранить</button>
+            </div>
+        </form>
+    </div>
+    <br>
+    <a href="http://localhost:8080/authors">перейти к списку авторов</a><br>
+    <a href="http://localhost:8080/genres">перейти к списку жанров</a><br>
+</div>
+</body>
+</html>
