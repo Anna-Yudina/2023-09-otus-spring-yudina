@@ -1,0 +1,39 @@
+version: '3'
+services:
+  back:
+    build:
+      context: .
+      dockerfile: back/back.Dockerfile
+    ports:
+      - "8080:8080"
+    # Эти свойства перегружают соответствующие в application.yml
+    environment:
+      - SPRING_R2DBC_URL=r2dbc:postgresql://postgres:5432/hw17db
+      - SPRING_R2DBC_USERNAME=postgres
+      - SPRING_R2DBC_PASSWORD=postgres
+    depends_on:
+      - migrations
+      - postgres
+
+  migrations:
+    image: redgate/flyway
+    volumes:
+      - ./back/src/main/resources/db/migration:/flyway/sql
+    environment:
+      - FLYWAY_URL=jdbc:postgresql://postgres:5432/hw17db
+      - FLYWAY_USER=postgres
+      - FLYWAY_PASSWORD=postgres
+      - FLYWAY_VALIDATE_MIGRATION_NAMING=true
+    command: migrate
+    depends_on:
+      - postgres
+
+  postgres:
+    image: "postgres:13.3"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=hw17db
+
