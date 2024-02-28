@@ -1,0 +1,71 @@
+spring:
+  main:
+    allow-circular-references: true
+  messages:
+    encoding: UTF-8
+  sql:
+    init:
+      mode: always
+      data-locations: data.sql
+      schema-locations: schema.sql
+
+  batch:
+    job:
+      enabled: false
+
+  shell:
+    interactive:
+      enabled: true
+    noninteractive:
+      enabled: false
+    command:
+      version:
+        enabled: false
+
+  #Local MongoDB config
+  data:
+    mongodb:
+      database: hw14db
+      port: 27017
+      host: localhost
+
+    # Local sqlDB config
+  datasource:
+    url: jdbc:h2:mem:hw14db
+    username: sa
+    password: 123
+    driver-class-name: org.h2.Driver
+
+  h2:
+    console:
+      path: /h2-console
+      settings:
+        web-allow-others: true
+
+  jpa:
+    open-in-view: false
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+
+    show-sql: true
+
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 4.0.2
+
+#mongock:
+#  runner-type: "InitializingBean"
+#  change-logs-scan-package:
+#    - ru.otus.example.springbatch.chandgelogs
+#  mongo-db:
+#    write-concern:
+#      journal: false
+#    read-concern: local
