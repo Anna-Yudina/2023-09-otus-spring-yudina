@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ru.otus.hw</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>homework-18</artifactId>
+    <packaging>pom</packaging>
+
+    <properties>
+        <spring-cloud.version>2022.0.5</spring-cloud.version>
+        <spring-cloud-starter-netflix.version>2.2.10.RELEASE</spring-cloud-starter-netflix.version>
+    </properties>
+
+    <modules>
+        <module>library-service</module>
+        <module>eureka-server</module>
+        <module>visualizer-library-client</module>
+    </modules>
+
+</project>

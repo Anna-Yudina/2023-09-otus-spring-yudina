@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Books</title>
+</head>
+<body>
+<h3>Список книг</h3>
+<ul>
+  <li th:each="book : ${books}">
+      Наименование: "<span th:text="${book.title}"></span>"<br>
+      Автор: <span th:text="${book.author.fullName}"></span><br>
+      Жанр: <span th:text="${book.genre.name}"></span>
+  </li>
+</ul>
+<br>
+<a href="http://localhost:8088/authors">Показать всеx авторов</a>
+</body>
+</html>
