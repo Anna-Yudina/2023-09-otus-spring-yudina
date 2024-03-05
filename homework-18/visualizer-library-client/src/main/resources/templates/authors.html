@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Authors</title>
+</head>
+<body>
+<h3>Список авторов</h3>
+<ul>
+    <li th:each="author : ${authors}" th:text="${author.fullName}"></li>
+</ul>
+<br>
+<a href="http://localhost:8088/books">Показать все книги</a>
+</body>
+</html>
